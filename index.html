@@ -1,0 +1,47 @@
+<html>
+  <body>
+    <table />
+  </body>
+  <style>
+    td {
+      border: 1px solid black;
+    }
+    div {
+      text-align: center;
+    }
+    h1 {
+      font-family: Bahnschrift;
+    }
+    h3 {
+      font-family: Impact;
+    }
+    h4 {
+      font-family: monospace;
+    }
+    @media print {
+      body {
+        zoom: 96%;
+      }
+    }
+  </style>
+  <script>
+    let label = `
+          <div>
+            <h3>SZCZYP</h3>
+            <h1>SMASH IPA Sabro</h1>
+            <h4>3 | 1.055<sub>sg</sub> | 6.15<sub>abv</sub></h4>
+          </div>
+    `;
+
+    let table = document.querySelector("table");
+
+    Array.from({length: 4}).map(_ => {
+      let row = table.insertRow();
+      Array.from({length: 5}).map(_ => {
+        let cell = row.insertCell();
+        cell.innerHTML = label;
+      });
+    });
+  </script>
+</html>
+
