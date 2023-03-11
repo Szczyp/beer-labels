@@ -1,6 +1,5 @@
 <html>
   <body>
-    <table></table>
   </body>
   <style>
     td {
@@ -19,28 +18,64 @@
       font-family: monospace;
     }
     @media print {
-      body {
-        zoom: 96%;
+      table, tr {
+        page-break-inside: avoid;
       }
     }
   </style>
   <script>
-    let label = `
+    let labels = [
+      { 
+        rows: 3,
+        columns: 5,
+        zoom: 102.5,
+        html: `
           <div>
             <h3>SZCZYP</h3>
             <h1>SMASH IPA Sabro</h1>
-            <h4>3 | 1.055<sub>sg</sub> | 6.15<sub>abv</sub></h4>
-          </div>
-    `;
+            <h4>1.055<sub>sg</sub> | 5.5%<sub>abv</sub></h4>
+            <h3>3</h3>
+          </div>`
+      },
+      { 
+        rows: 3,
+        columns: 6,
+        zoom: 102.5,
+        html: `
+          <div>
+            <h3>SZCZYP</h3>
+            <h1>AMERICAN WHEAT</h1>
+            <h4>1.035<sub>sg</sub> | 4%<sub>abv</sub></h4>
+            <h3>4</h3>
+          </div>`
+      },
+      { 
+        rows: 3,
+        columns: 6,
+        zoom: 102.5,
+        html: `
+          <div>
+            <h3>SZCZYP</h3>
+            <h1>SMASH IPA Simco</h1>
+            <h4>1.063<sub>sg</sub> | _%<sub>abv</sub></h4>
+            <h3>5</h3>
+          </div>`
+      }
+    ];
 
-    let table = document.querySelector("table");
+    let body = document.querySelector("body");
 
-    Array.from({length: 4}).map(_ => {
-      let row = table.insertRow();
-      Array.from({length: 5}).map(_ => {
-        let cell = row.insertCell();
-        cell.innerHTML = label;
-      });
+    labels.forEach(label => {
+      let table = document.createElement("table");
+      table.setAttribute("style", `zoom: ${label.zoom}%;`)
+      Array.from({length: label.rows}).map(_ => {
+        let row = table.insertRow();
+        Array.from({length: label.columns}).map(_ => {
+          let cell = row.insertCell();
+          cell.innerHTML = label.html;
+        });
+      })
+      body.appendChild(table);
     });
   </script>
 </html>
