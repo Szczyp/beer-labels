@@ -2,6 +2,10 @@
   <body>
   </body>
   <style>
+    table {
+      table-layout: fixed;
+      width: 100%;
+    }
     td {
       border: 1px solid black;
     }
@@ -25,53 +29,42 @@
   </style>
   <script>
     let labels = [
-      { 
-        rows: 3,
-        columns: 6,
-        zoom: 102.5,
-        html: `
-          <div>
-            <h3>SZCZYP</h3>
-            <h1>SMASH IPA Sabro</h1>
-            <h4>1.055<sub>sg</sub> | 5.5%<sub>abv</sub></h4>
-            <h3>3</h3>
-          </div>`
-      },
-      { 
-        rows: 3,
-        columns: 6,
-        zoom: 102.5,
-        html: `
-          <div>
-            <h3>SZCZYP</h3>
-            <h1>AMERICAN WHEAT</h1>
-            <h4>1.035<sub>sg</sub> | 4%<sub>abv</sub></h4>
-            <h3>4</h3>
-          </div>`
-      },
-      { 
-        rows: 3,
-        columns: 6,
-        zoom: 102.5,
-        html: `
-          <div>
-            <h3>SZCZYP</h3>
-            <h1>SMASH IPA Simco</h1>
-            <h4>1.063<sub>sg</sub> | 6.5%<sub>abv</sub></h4>
-            <h3>5</h3>
-          </div>`
-      },
       {
-        rows: 3,
-        columns: 6,
-        zoom: 102.5,
-        html: `
-          <div>
-            <h3>SZCZYP</h3>
-            <h1>WHEAT IPA Cit+Mos</h1>
-            <h4>1.067<sub>sg</sub> | 7%<sub>abv</sub></h4>
-            <h3>6</h3>
-          </div>`
+        rows: 4,
+        columns: 5,
+        zoom: 77,
+        beers: [
+          {
+            count: 4,
+            html: `
+              <div>
+                <h3>SZCZYP</h3>
+                <h1>Ekuanot </br> APA</h1>
+                <h4>13° | 5.5%</h4>
+                <h3>14</h3>
+              </div>`
+          },
+          {
+            count: 8,
+            html: `
+              <div>
+                <h3>SZCZYP</h3>
+                <h1>Vic Secret </br> APA</h1>
+                <h4>13° | 5.5%</h4>
+                <h3>15</h3>
+              </div>`
+          },
+          {
+            count: 8,
+            html: `
+              <div>
+                <h3>SZCZYP</h3>
+                <h1>Sabro </br> APA</h1>
+                <h4>13° | 5.5%</h4>
+                <h3>16</h3>
+              </div>`
+          },
+        ]
       }
     ];
 
@@ -79,12 +72,13 @@
 
     labels.forEach(label => {
       let table = document.createElement("table");
-      table.setAttribute("style", `zoom: ${label.zoom}%;`)
-      Array.from({length: label.rows}).map(_ => {
+      table.setAttribute("style", `zoom: ${label.zoom}%;`);
+      let htmls = labels.flatMap(label => label.beers.flatMap(beer => Array.from({length: beer.count}, _ => beer.html)));
+      Array.from({length: label.rows}).map((_, r) => {
         let row = table.insertRow();
-        Array.from({length: label.columns}).map(_ => {
+        Array.from({length: label.columns}).map((_, c) => {
           let cell = row.insertCell();
-          cell.innerHTML = label.html;
+          cell.innerHTML = htmls[r*label.columns+c];
         });
       })
       body.appendChild(table);
